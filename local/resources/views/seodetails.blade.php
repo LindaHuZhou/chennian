@@ -116,6 +116,18 @@
                         </ul>
                     </div>
                 </div>
+                <!--标签-->
+                <div class="b_right4">
+                    <div class="con">
+                        <ul class="clearfix">
+                            <?php foreach($labels as $label):?>
+                            <li>
+                                <a href="{{url('/seo',['id'=>$label['id']])}}">{{$label['keywords']}}</a>
+                            </li>
+                            <?php endforeach;?>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

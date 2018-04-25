@@ -4,6 +4,10 @@ use App\Http\Controllers\ForumController;
 use App\Http\Controllers\PostDetailController;
 use App\Http\Controllers\NewThreadController;
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\ShipingController;
+use App\Http\Controllers\MdetailController;
+use App\Http\Controllers\SeolistController;
+use App\Http\Controllers\PcenterController;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -79,3 +83,33 @@ Route::get('video/{name}', function($name) {
 });
 
 Route::get('seormyd', 'SeormController@index');
+
+Route::post('search', 'SearchController@index');
+Route::post('audit', 'AuditController@index');
+Route::get('seolessons', 'SeoLessonController@index');
+Route::post('seolessons', 'SeoLessonController@store');
+
+
+/*手机端*/
+Route::get('mlogin', 'MloginController@index');
+Route::post('mlogin', 'MloginController@store');
+Route::get('mregist', 'MregistController@index');
+Route::post('mregist', 'MregistController@store');
+
+Route::get('cnxy', 'CnxyController@index');
+Route::get('spjc/{name}', function($name){
+    return ShipingController::index($name);
+});
+Route::get('seozx', 'SeozxController@index');
+
+Route::get('mdetail/{id}', function($id){
+    return MdetailController::index($id);
+});//资讯详情
+
+Route::get('seolist/{name}', function($name) {
+    return SeolistController::index($name);
+});
+
+Route::get('pcenter/{id}', function($id){
+    return PcenterController::index($id);
+});

@@ -38,9 +38,7 @@
                     <div class="clear" style="border:1px solid #dcdcdc;margin-top:5px;"></div>
                 </div>
 
-                <div style="width:100%;height:50px;border:1px solid red;margin:25px 0 20px;line-height:30px;">
-
-                </div>
+                <div style="width:100%;margin:25px 0 20px;" class="forum_pic"></div>
 
                 <div class="mid_post">
                     <div class="post_left">
@@ -293,10 +291,10 @@
                                                             </a>
                                                         </dd>
                                                         <dt>
-                                                            <a href="" title="" target="_blank">2017-2018年CFA官网考试报</a>
+                                                            <a href="" title="" target="_blank">2017-2018陈年seo教育课程报名</a>
                                                         </dt>
                                                         <dd>
-                                                            2017-2018年CFA官网考试报名流程指引下载
+                                                            2017-2018年SEO报课流程指引
                                                             报名中需要特别注意事项均在指引
                                                         </dd>
                                                     </dl>
@@ -308,11 +306,10 @@
                                                             </a>
                                                         </dd>
                                                         <dt>
-                                                            <a href="" title="" target="_blank">2017-2018年CFA官网考试报</a>
+                                                            <a href="" title="" target="_blank">陈年seo教育学习资料下载</a>
                                                         </dt>
                                                         <dd>
-                                                            2017-2018年CFA官网考试报名流程指引下载
-                                                            报名中需要特别注意事项均在指引
+                                                            2017-2018年陈年seo教育学习资料指引下载
                                                         </dd>
                                                     </dl>
 
@@ -352,7 +349,7 @@
                 {{--富文本框--}}
                 <textarea name="reply" style="width:600px;height:160px;visibility:hidden;display: block;"></textarea>
                 <div class="pnpost">
-                    <button type="submit" id="postsubmit" class="pn">
+                    <button type="submit" id="postsubmit" class="pn" style="background:#db2a0b;">
                         <span>回复帖子</span>
                     </button>
                 </div>

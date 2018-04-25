@@ -30,9 +30,9 @@
                             <h1 class="xs2">
                                 <a href="">版主：{{$master}}</a>
                                 <span class="xs1 xw0 i">
-                                    今日: <strong class="xi1">0</strong>
+                                    今日: <strong class="xi1">{{$today}}</strong>
                                     <span class="pipe">&nbsp;|&nbsp;</span>
-                                    主题: <strong class="xi1">4416</strong>
+                                    主题: <strong class="xi1"><?php echo count($posts);?></strong>
                                     <b class="ico_fall">&nbsp;</b>
                                 </span>
                             </h1>
@@ -55,17 +55,17 @@
                                 <tr>
                                     <th colspan="2" style="width:720px;">
                                         <div class="tf">
-                                            <a id="filter_special" class="showmenu xi2">全部主题</a>&nbsp;
+                                            <a id="filter_special" class="showmenu xi2" style="text-decoration:none;">全部主题</a>&nbsp;
                                             <a href="" class="xi2">最新</a>&nbsp;
-                                            <a href="" class="xi2">热门</a>&nbsp;
-                                            <a href="" class="xi2">热帖</a>&nbsp;
                                             <a href="" class="xi2">精华</a>&nbsp;
                                         </div>
                                     </th>
                                     <td class="by">作者</td>
                                     <td class="num">回复/查看</td>
                                     <td class="by">发表时间</td>
+                                    @if($isMaster)
                                     <td class="by">审核</td>{{--到时候判断是不是版主--}}
+                                        @endif
                                 </tr>
                             </tbody>
                         </table>
@@ -76,7 +76,6 @@
                         <form method="post" autocomplete="off" name="moderate" id="moderate" action="">
                             <table summary="forum_45" cellspacing="0" cellpadding="0" id="threadlisttableid">
                                 <?php foreach($posts as $post): ?>
-                                {{--以后这里要设置为审核通过才显示    if($post->audit == 1)--}}
                                 <tbody id="<?php echo 'post_' . $post->id;?>" class="sxplist_body">
                                     <tr>
                                         <td class="icn">
@@ -89,17 +88,22 @@
                                         </th>
                                         <td class="by">
                                             <cite>
-                                                <a href="" c="1" mid="">jinglimin</a>
+                                                <a href="" c="1" mid="">{{$post->username}}</a>
                                             </cite>
                                         </td>
-                                        <td class="num"><a href="" class="xi2">{{$post->replies}}</a><em>45256</em></td>
+                                        <td class="num"><a href="" class="xi2">{{$post->replies}}</a><em>{{$post->visitors}}</em></td>
                                         <td class="by">
                                             <cite><a c="1" style="text-decoration: none;"><span><?php echo date('m-d h:i',strtotime($post->createtime));?></span></a></cite>
                                         </td>
-
-                                        <td class="by"> {{--判读是不是版主--}}
-                                            <button class="btn btn-primary" type="button">审核</button>
+                                        @if($isMaster && $post->audit == 0)
+                                        <td class="by">
+                                            <button class="btn btn-primary" type="button" onclick="audit({{$post}})">审核</button>
                                         </td>
+                                            @elseif($isMaster && $post->audit == 1)
+                                            <td class="by">
+                                                <button class="btn btn-default" type="button" disabled="disabled">已审核</button>
+                                            </td>
+                                            @endif
                                     </tr>
                                 </tbody>
                                     <?php endforeach;?>
@@ -107,6 +111,86 @@
                             </table>
                         </form>
                     </div>
+                    {{--审核弹框--}}
+                    <div id="audit_bounced" class="fwinmask" style="width:500px;position:fixed;z-index:333;left:683px;top:185px;initialized:true;display:none;">
+                        <style type="text/css">
+                            object{visibility:hidden;}
+                        </style>
+                        <table cellpadding="0" cellspacing="0" class="fwin" style="empty-cells:show;border-collapse:collapse;">
+                            <tbody style="display:table-row-group;vertical-align:middle;border-color:inherit;">
+                            <tr style="display:table-row;vertical-align:inherit;border-color:inherit;">
+                                <td class="t_l"></td>
+                                <td class="t_c" style="cursor:move;"></td>
+                                <td class="t_r"></td>
+                            </tr>
+                            <tr>
+                                <td class="m_l" style="cursor:move;"></td>
+                                <td class="m_c" id="fwin_content_login">
+                                    <div id="main_message_Lr0Ia">
+                                        <div id="layer_login_Lr0Ia">
+                                            <h3 class="flb" style="cursor:move;padding:10px 20px 8px;">
+                                                <em style="color:#4d1717;font-size:16px;">审核帖子</em>
+                                                <span>
+                                                    <a href="javascript:" class="flbc" title="关闭" onclick="closeAudit(this)">关闭</a>
+                                                </span>
+                                            </h3>
+                                            <form method="post" action="{{asset('/audit')}}" autocomplete="off" class="cl">
+                                                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                                <div class="cl" style="padding: 0 10px 10px;">
+                                                    <div class="rfm" style="margin-bottom:15px;">
+                                                        <table>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th>
+                                                                        <label style="cursor:pointer;">查看数：</label>
+                                                                    </th>
+                                                                    <td>
+                                                                        <input type="text" name="visitors" autocomplete="off" size="30" class="px p_fre" tabindex="1">
+                                                                        <input type="hidden" name="postid" class="post_id">
+                                                                        <input type="hidden" name="forumid" value="{{$id}}">
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="rfm mbw bw0">
+                                                        <table width="100%;">
+                                                            <tbody>
+                                                            <tr>
+                                                                <th>
+                                                                    &nbsp;
+                                                                </th>
+                                                                <td>
+                                                                    <button class="pn pnc" type="submit" name="auditsubmit" value="true" tabindex="1">
+                                                                        <strong>确定</strong>
+                                                                    </button>
+                                                                </td>
+                                                                <td>
+                                                                    <button class="pn pnc" type="button" onclick="closeAudit()" tabindex="1" style="background:#db2a0b;">
+                                                                        <strong>取消</strong>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="m_r" style="cursor:move;"></td>
+                            </tr>
+                            <tr>
+                                <td class="b_l"></td>
+                                <td class="b_c" style="cursor:move;"></td>
+                                <td class="b_r"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
                 </div>
                 <div class="pgs" style="height:75px;">
                     <div class="pg">
@@ -132,6 +216,15 @@
             $('#forum_rules_45').css('display','none');
             $('#forum_rules_46_img').css('display','none');
             $('#forum_rules_45_img').css('display','block');
+        }
+
+        function audit(post) {
+            $('.post_id').val(post['id']);
+            $('#audit_bounced').css('display','block');
+        }
+
+        function closeAudit() {
+            $('#audit_bounced').css('display','none');
         }
     </script>
     @include('footer')

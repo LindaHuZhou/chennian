@@ -51,8 +51,9 @@ class Ucenters extends Model{
     static public function getRole($key) {
         $role = [
             0 => '小白',
-            1 => '管理员',
-            2 => '版主'
+            1 => 'VIP',
+            2 => '版主',
+            3 => '超级管理员'
         ];
         return $role[$key];
     }

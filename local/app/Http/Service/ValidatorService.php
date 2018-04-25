@@ -61,4 +61,22 @@ class ValidatorService
             'content'    => 'required'
         ]);
     }
+
+    /**
+     * post lessons validator
+     * @params array $data
+     */
+    public function PostLessonsValidator($data)
+    {
+        return Validator::make($data,[
+            'lesson_name' => 'required',
+            'teacher'     => 'required',
+            'lessons'     => 'required',
+            'price'       => 'required',
+            'learned'     => 'required',
+            'people'      => 'required',
+            'resolve_rate'=> 'required|max:100',
+            'abbrevia'    => 'required'
+        ]);
+    }
 }

@@ -37,8 +37,9 @@
                     <meta http-equiv="x-ua-compatible" content="IE=9">
                     <div class="bdcs-main" id="bdcs-search-inline">
                         <div class="bdcs-search">
-                            <form action="" method="post" target="_blank" class="bdcs-search-form">
-                                <input type="text" name="" class="bdcs-search-form-input" placeholder="请输入关键字" style="height:26px;line-height:26px;width:390px;">
+                            <form action="{{asset('/search')}}" method="post" class="bdcs-search-form">
+                                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                <input type="text" name="search" class="bdcs-search-form-input" placeholder="请输入关键字" style="height:26px;line-height:26px;width:390px;">
                                 <input type="submit" class="bdcs-search-form-submit" value="搜索">
                             </form>
                         </div>
@@ -52,7 +53,7 @@
                 <img src="{{asset('/picture/kefuwechat.jpg')}}" style="width:62px;height:62px;">
             </a>
         </div>
-        <div id="login" class="dologin" style="position:fixed;z-index:23;right:23px;top:15px;width:100px;height:32px;">
+        <div id="login" class="dologin" style="position:fixed;z-index:23;right:23px;top:15px;width:210px;height:32px;">
             <table cellspacing="0" cellpadding="0">
                 <tbody>
                     <tr>
@@ -71,6 +72,14 @@
                         <td>
                             <a href="{{asset('/auth/register')}}" style="text-decoration:none;cursor:pointer;">立即注册</a>
                         </td>
+                        @endif
+                        @if(isset(Session::get('ucenter')[0]) && Session::get('ucenter')[0]->role > 0)
+                            <td>
+                                <a href="{{asset('/postinformation')}}" rel="nofollow" style="text-decoration:none;cursor:pointer;">资讯管理</a>
+                            </td>
+                            <td>
+                                <a href="{{asset('/seolessons')}}" rel="nofollow" style="text-decoration:none;cursor:pointer;">课程管理</a>
+                            </td>
                         @endif
                     </tr>
                 </tbody>

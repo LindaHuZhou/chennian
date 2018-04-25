@@ -24,6 +24,8 @@ class SeoJxController extends Controller
         $users = Informanages::where('columns','seojx')->paginate($perPage,$columns,$pageName,$page);
         $originals = Informanages::where(['original'=>1])->limit('10')->orderby('createtime','DESC')->get();
         $post = Posts::where(['hot'=>1,'status'=>1])->limit('5')->orderby('createtime', 'DESC')->get();
+        //查询10个标签
+        $labels = Informanages::distinct()->limit(12)->groupby('keywords')->get(['keywords','id'])->toArray();
 
         return view('seodetails',
             [
@@ -31,7 +33,8 @@ class SeoJxController extends Controller
                 'abbreviation' => 'seojx',
                 'posts' =>$post,
                 'originals' => $originals,
-                'users' => $users
+                'users' => $users,
+                'labels'=>$labels
             ]);
     }
 }

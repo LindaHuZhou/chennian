@@ -19,6 +19,7 @@ class Curriculum extends Model
      * learned       integer   已学习人数
      * solve_rate    integer   解疑率
      * peoples       integer   打赏人数
+     * picture       string    课程简介图片
      * status        integer   课程状态
      */
     const TABLE_NAME = 'curriculums';
@@ -32,6 +33,7 @@ class Curriculum extends Model
         'lessions',
         'price',
         'learned',
+        'picture',
         'solve_rate',
         'peoples',
         'createtime'

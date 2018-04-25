@@ -197,7 +197,7 @@
                             {{--富文本框--}}
                             <textarea name="content" id="content" style="width:1180px;height:200px;visibility:hidden;display: block;"></textarea>
                             <div class="pnpost">
-                                <button type="submit" id="postsubmit" class="pn">
+                                <button type="submit" id="postsubmit" class="pn" style="background:#db2a0b;">
                                     <span>发布资讯</span>
                                 </button>
                                 <p style="float:right;">

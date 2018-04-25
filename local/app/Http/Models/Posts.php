@@ -13,6 +13,8 @@ class Posts extends Model
      * sid         int     板块id
      * uid         int     发帖人id
      * topic       string  帖子标题
+     * hot         int     热帖标记
+     * visitors    int     看帖人数
      * contents    text    帖子内容
      * replies     int     回帖数目
      * status      int     帖子状态，1：正常，0：删除
@@ -26,6 +28,8 @@ class Posts extends Model
         'sid',
         'uid',
         'topic',
+        'hot',
+        'visitors',
         'contents',
         'replies',
         'status',

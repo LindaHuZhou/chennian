@@ -22,6 +22,8 @@ class DetailController extends Controller {
 
         $originals = Informanages::where(['original'=>1])->limit('10')->orderby('createtime','DESC')->get();
         $post = Posts::where(['hot'=>1,'status'=>1])->limit('5')->orderby('createtime', 'DESC')->get();
+        //查询10个标签
+        $labels = Informanages::distinct()->limit(12)->groupby('keywords')->get(['keywords','id'])->toArray();
 
         return view('details', [
             'abbreviation' =>$content['columns'],
@@ -30,7 +32,8 @@ class DetailController extends Controller {
             'originals' =>$originals,
             'posts' => $post,
             'name' =>$name,
-            'content' =>$content['content']
+            'content' =>$content['content'],
+            'labels' => $labels
         ]);
     }
 }
