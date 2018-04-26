@@ -18,24 +18,25 @@ class ResetController extends Controller
     {
         $data = $request->all();
         $validator = $validatorService->ResetValidator($data);
-        /**
-         * 分别从两个表查询到相关数据
-         */
-        $email = $data['email'];
-        if ($email) {
-            $user = Ucenters::where('email', $email)->first();
-            $reset = ResetsPasssd::where('email', $email)->first();
 
-            if ($data['code'] == $reset->code) {
-                $user->password = $data['password'];
-                $user->save();
-
-                $reset->status = 0;
-                $reset->save();
-            }
-            return view('/auth/login');
-        } else{
-            throwException('邮箱输入有误!');
+        //重置密码前的验证
+        if ($validator->fails())
+        {
+            $this->throwValidationException(
+                $request, $validator
+            );
         }
+
+        //修改密码
+        $user = Ucenters::where(['status'=>1,'id'=>$data['userid']])->first();
+
+        if($user){
+            $user->password = $data['password'];
+            $user->save();
+        }else{
+            return redirect()->back()->with('message', '密码重置失败！！');
+        }
+        //密码重置成功！跳转到登录页
+        return redirect('auth/login')->with('message', '密码重置成功，请登录！');
     }
 }

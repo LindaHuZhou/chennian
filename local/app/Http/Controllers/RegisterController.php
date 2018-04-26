@@ -9,7 +9,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Service\ValidatorService;
 use Illuminate\Http\Request;
-use Validator;
 use App\Http\Models\Ucenters;
 
 class RegisterController extends Controller
@@ -42,19 +41,6 @@ class RegisterController extends Controller
          * 跳转到登录页
          */
         //返回主页
-        return redirect()->action(
-            'MainController@index'
-        );
+        return redirect('auth/login')->with('message','注册成功，请登录！');
     }
-
-    public function validator(array $data)
-    {
-        return Validator::make($data, [
-            'username' => 'required|max:16',
-            'email' => 'required|email|max:32|unique:ucenters',
-            'password' => 'required|confirmed|min:6',
-        ]);
-    }
-
-
 }

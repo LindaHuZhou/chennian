@@ -92,6 +92,19 @@
     <div style="margin-left:10px;float:right;"></div>
     <div class="clear"></div>
 </div>
+@if(Session::has('message'))
+    <div class="alert" style="background-color:#fcf8e3;border-color:#faebcc;color:#8a6d3b;">{{Session::get('message')}}</div>
+@endif
+@if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <strong>哎呦!</strong> 你的输入有些问题。<br><br>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <!--修改部分开始-->
 <div class="nav" style="height:50px; line-height:50px; background:#f2f2f2;">
     <div class="navCon">
@@ -166,7 +179,7 @@
                                                         <input type="password" name="password" size="30" class="px p_fre" tabindex="1">
                                                     </td>
                                                     <td class="tipcol">
-                                                        <a href="javascript:" title="找回密码">找回密码</a>
+                                                        <a href="{{ url('/password/email')}}" title="找回密码">找回密码</a>
                                                     </td>
                                                 </tr>
                                             </tbody>

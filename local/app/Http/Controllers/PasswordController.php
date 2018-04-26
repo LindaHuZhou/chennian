@@ -10,42 +10,44 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Models\ResetsPasssd;
 use App\Http\Models\Ucenters;
-use App\Http\Controllers\MailController;
+use Validator;
 
 class PasswordController extends Controller
 {
-    private $mail;
+    public function __construct(Request $request)
+    {
+        $message = [
+            'email.required'=>'邮箱不能为空！',
+            'email.exists'=>'邮箱不存在！',
+            'mobile.required'=>'手机不能为空！',
+            'code.required'=>'验证码不能为空！',
+            'code.digits'=>'验证码必须为4位数字！',
+        ];
+        $this->validate($request,[
+            'email' => 'required|email|exists:ucenters',
+            'mobile' => 'required|max:11',
+            'code' => 'required|digits:4'
+        ],$message);
 
-    public function index(MailController $mailController,Request $request)
+    }
+
+    public function index(Request $request)
     {
         $data = $request->all();
-        $this->validate($request, array('email' => 'required|email|exists:ucenters,email'));
-        /**
-         * 验证完之后去发送验证码
-         */
-        $user = Ucenters::where('email',$data['email'])->first();
-        $has_email = ResetsPasssd::where(['email'=>$data['email'], 'status'=>1])->first();
-        $code = isset($has_email->code) ? $has_email->code : null;
-
-        if (!isset($code)) {
-            $code = (int)$this->getRandChar(6);
-            /**
-             * 存入数据库
-             */
-            $reset = ResetsPasssd::Create([
-                'email' => $data['email'],
-                'code'  => $code,
-                'status'=> 1,
-                'createtime' =>date('Y-m-d H:i:s', time())
-            ]);
+        if($data['r'] != $data['code']) {
+            return redirect()->back()->with('message','验证码输入有误！');
         }
-
-        /**
-         * 发送邮件
-         */
-        $mailController->index($code, $user->username ,$data['email']);
-
-        return view('auth/reset',['email' => $data['email']]);
+        $user = Ucenters::where(['status'=>1,'email'=>$data['email']])->first();
+        if($user) {
+            $mobile = $user->mobile;
+            if($mobile != $data['mobile']) {
+                return redirect()->back()->with('message','邮箱和手机号不匹配！');
+            }
+        } else{
+            return redirect()->back()->with('message','此邮箱不存在！');
+        }
+        //验证完成后跳转到 重置密码
+        return redirect('pcreset/'.$user['id']);
     }
 
     function getRandChar($length){

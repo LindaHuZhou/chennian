@@ -8,6 +8,8 @@ use App\Http\Controllers\ShipingController;
 use App\Http\Controllers\MdetailController;
 use App\Http\Controllers\SeolistController;
 use App\Http\Controllers\PcenterController;
+use App\Http\Controllers\ResetpasswdController;
+use App\Http\Controllers\PcresetController;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -26,7 +28,10 @@ Route::controllers([
 Route::post('register', 'RegisterController@index');/*注册*/
 Route::post('login', 'LoginController@index');/*登录*/
 Route::get('logout', 'LgoutController@index');/*退出登录*/
-Route::post('password', 'PasswordController@index');/*重置密码 发送邮件的操作*/
+Route::post('password', 'PasswordController@index');/*重置密码前的验证*/
+Route::get('pcreset/{id}',function($id) {
+    return PcresetController::index($id);
+});
 
 Route::get('home', 'HomeController@index');
 
@@ -65,8 +70,8 @@ Route::get('seogghz', 'SeoGghzController@index');/*seo广告互助*/
 Route::get('seohm', 'SeoHmController@index');/*seo黑帽*/
 Route::get('seosf', 'SeoSfController@index');/*seo算法*/
 Route::get('wlyy', 'SeoWlyyController@index');/*网络运营*/
-Route::get('mail', 'MailController@index'); /*邮件*/
-Route::post('reset', 'ResetController@index');
+
+Route::post('reset', 'ResetController@index');//重置密码
 
 Route::post('upload', 'UploadController@index');//图片上传
 
@@ -113,3 +118,10 @@ Route::get('seolist/{name}', function($name) {
 Route::get('pcenter/{id}', function($id){
     return PcenterController::index($id);
 });
+
+Route::get('forgetpass', 'PasswdretakeController@index');
+Route::post('forgetpass', 'PasswdretakeController@store');
+Route::get('resetpasswd/{id}', function($id){
+    return ResetpasswdController::index($id);
+});
+Route::post('resetpasswd', 'ResetpasswdController@store');

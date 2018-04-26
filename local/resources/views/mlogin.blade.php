@@ -1,6 +1,12 @@
 @extends('mheader')
 @section('content')
     @parent
+    @if(Session::has('message'))
+        <div class="alert" style="background-color:#dff0d8;border-color:#d6e9c6;color:#3c763d;">{{Session::get('message')}}</div>
+    @endif
+    @if(Session::has('notice'))
+        <div class="alert" style="background-color:#fcf8e3;border-color:#faebcc;color:#8a6d3b;">{{Session::get('notice')}}</div>
+    @endif
     <div class="container consult_main" style=" padding:80px 20px 100px 30px;">
         <div style="margin:0 0 30px 0; text-align:center; font-size:18px;color: #DE1015;font-weight:bold;font-family:'微软雅黑'">用户登录</div>
         <div class="wl-row">
@@ -21,7 +27,7 @@
                             <button id="submit_btn" type="submit" class="orange_btn">登录</button><br><br><br>
                             <span style="margin-left:10px;font-size:14px; text-align:center; color:#666666;">没有帐号，现在
                                 <a style="padding:0 20px 0 0; color: #0099FF;" href="{{asset('/mregist')}}">立即注册</a>
-                                <a style="padding:0 0; color: #0099FF;" href="">忘记密码？</a>
+                                <a style="padding:0 0; color: #0099FF;" href="{{asset('/forgetpass')}}">忘记密码？</a>
                             </span>
                         </div>
                     </form>
