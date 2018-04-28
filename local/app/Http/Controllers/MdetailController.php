@@ -14,8 +14,24 @@ class MdetailController extends Controller
 {
     public static function index($id)
     {
+        $prev = false;
+        $next = false;
         $infor = Informanages::where('id',$id)->first();
         $video = Curriculum::where(['status'=>1,'abbreviation'=>'seojc'])->first();
-        return view('mdetail',['infor'=>$infor,'video'=>$video]);
+
+        if($infor['id'] == 1) {
+            $prev = true;
+        }
+        $max = Informanages::max('id');
+        if($infor['id'] == $max) {
+            $next = true;
+        }
+        return view('mdetail',
+            [
+                'infor'=>$infor,
+                'video'=>$video,
+                'prev' =>$prev,
+                'next' =>$next
+            ]);
     }
 }

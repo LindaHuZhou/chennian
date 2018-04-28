@@ -15,7 +15,21 @@ use App\Http\Models\Posts;
 class DetailController extends Controller {
     public function index($id)
     {
-        $content = Informanages::findOrFail($id);
+        $prev = false;
+        $next = false;
+        $content = Informanages::find($id);
+        if(!$content) {
+            return redirect()->back()->with('message','此资讯不存在！');
+        }
+        //翻页，第一最后页的判断
+        if($content['id'] == 1) {
+            $prev = true;
+        }
+        $max = Informanages::max('id');
+        if($content['id'] == $max) {
+            $next = true;
+        }
+
         $abbreviation = $content['columns'];
         $columns = Columns::where(['abbreviation' => $abbreviation, 'status' => 1])->first();
         $name = $columns['name'];
@@ -26,14 +40,17 @@ class DetailController extends Controller {
         $labels = Informanages::distinct()->limit(12)->groupby('keywords')->get(['keywords','id'])->toArray();
 
         return view('details', [
+            'id'    => $content['id'],
             'abbreviation' =>$content['columns'],
             'title' => $content['min_title'],
-            'auth' => $content['auth'],
+            'auth'  => $content['auth'],
             'originals' =>$originals,
             'posts' => $post,
-            'name' =>$name,
+            'name'  =>$name,
             'content' =>$content['content'],
-            'labels' => $labels
+            'labels' => $labels,
+            'prev'   =>$prev,
+            'next'   =>$next
         ]);
     }
 }

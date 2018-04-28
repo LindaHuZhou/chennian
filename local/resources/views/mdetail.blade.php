@@ -24,6 +24,29 @@
     </div>
     <div class="txtbianji">（责任编辑：<?php if($infor->auth){echo $infor->auth;}else{echo '无名';}?>）</div>
 
+    <div class="txtneirong" style="text-align:center;">
+        <input id="getid" type="hidden" value="{{$infor->id}}">
+        <button id="prev" <?php if($prev){echo "class='fanye' disabled='disabled'";}else{echo "class='fanye'";} ?>>
+            上一页
+        </button>
+
+        <span style="margin-left:15%;"></span>
+        <button id="next" <?php if($next){echo "class='fanye' disabled='disabled'";}else{echo "class='fanye'";} ?>>
+            下一页
+        </button>
+    </div>
+    <script type="text/javascript">
+        $('#prev').click(function(){
+            var prev = $('#getid').val()-1;
+            window.location.href = prev;
+        });
+        $('#next').click(function(){
+            var next = $('#getid').val();
+            next++;
+            window.location.href = next;
+        });
+    </script>
+
     <ul class="shiping">
         <li>
             <div class="biaoti">

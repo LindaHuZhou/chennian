@@ -935,3 +935,12 @@ a{text-decoration:none;} a.c3{color:#333;} a.c28{color:#2889d6;} a.cf{color:#fff
     padding:1px 0 5px 13px;
     margin-right:20px;
 }
+.fanye{
+    margin:8px auto 0 auto;
+    width:20%;
+    height:32px;
+    border-radius:3px;
+    background:#f60;
+    color:#fff;
+    overflow:hidden;
+}

@@ -24,6 +24,22 @@
                 <div class="first_body">
                     {!! $content !!}
                 </div>
+                <div class="col-md-6 col-md-offset-4" style="margin-top:30px;">
+                    <input id="getid" type="hidden" value="{{$id}}">
+                    <button id="prev" type="button" <?php if($prev){echo "class='btn btn-default' disabled='disabled'";}else{echo "class='btn btn-primary'";} ?>>上一页</button>
+                    <button id="next" type="button" <?php if($next){echo "class='btn btn-default' disabled='disabled'";}else{echo "class='btn btn-primary'";} ?>>下一页</button>
+                </div>
+                <script type="text/javascript">
+                    $('#prev').click(function(){
+                        var prev = $('#getid').val()-1;
+                        window.location.href = prev;
+                    });
+                    $('#next').click(function(){
+                        var next = $('#getid').val();
+                        next++;
+                        window.location.href = next;
+                    });
+                </script>
             </div>
 
 
